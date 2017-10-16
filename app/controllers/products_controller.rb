@@ -1,5 +1,18 @@
-class ProductsController < ApplicationController
+  class ProductsController < ApplicationController
+  include ActionController::Live
   before_action :set_product, only: [:show, :edit, :update, :destroy]
+
+
+  def download
+    response.headers['Content-Type'] = 'text/plain'
+    40.times do |i|
+      response.stream.write "Line #{i}\n\n"
+      sleep 0.10
+    end
+    response.stream.write "Fini.\n"
+  ensure
+    response.stream.close
+  end
 
   # GET /products
   # GET /products.json
@@ -56,6 +69,16 @@ class ProductsController < ApplicationController
         format.html { render :edit }
         format.json { render json: @product.errors,
         status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def who_bought
+    @product = Product.find(params[:id])
+    @latest_order = @product.orders.order(:updated_at).last
+    if stale?(@latest_order)
+      respond_to do |format|
+        format.atom
       end
     end
   end
