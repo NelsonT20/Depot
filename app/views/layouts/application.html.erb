@@ -2,18 +2,21 @@
 <html>
   <head>
   <title>Pragprog Books Online Store</title>
-  <!-- <label id="code.slt"/> --><%= stylesheet_link_tag    "application", media: "all",
+  <%= stylesheet_link_tag    "application", media: "all",
     "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "application", "data-turbolinks-track" => true %><!-- <label id="code.jlt"/> -->
-  <%= csrf_meta_tags %><!-- <label id="code.csrf"/> -->
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <%= csrf_meta_tags %>
 </head>
 <body class="<%= controller.controller_name %>">
   <div id="banner">
     <%= image_tag("logo.png") %>
-    <span class="title"><%= @page_title || "Pragmatic Bookshelf" %></span><!-- <label id="code.depot.e.title"/> -->
+    <span class="title"><%= @page_title || "Pragmatic Bookshelf" %></span>
   </div>
   <div id="columns">
     <div id="side">
+      <div id="cart">
+        <%= render @cart %>
+      </div>
       <ul>
         <li><a href="http://www....">Home</a></li>
         <li><a href="http://www..../faq">Questions</a></li>
@@ -22,7 +25,7 @@
       </ul>
     </div>
     <div id="main">
-      <%= yield %><!-- <label id="code.depot.e.include"/> -->
+      <%= yield %>
     </div>
   </div>
 </body>
